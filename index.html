@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5B21D6">
+<title>Easylife Store — Prototype</title>
+<style>
+:root{--purple:#5b21d6;--purple2:#7c3aed;--ink:#171329;--muted:#77718b;--bg:#f7f5ff;--card:#fff;--line:#ebe7f3;--green:#099a51;--orange:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:#eeeaf6;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+button,input{font:inherit}.app{max-width:480px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow:hidden}
+.header{padding:20px 18px 12px;background:#fff}.top{display:flex;justify-content:space-between;align-items:center}.logo{font-size:22px;font-weight:900;color:var(--purple)}.greet{font-size:12px;color:var(--muted);margin-top:2px}.avatar{width:38px;height:38px;border-radius:50%;background:#eee7ff;color:var(--purple);display:grid;place-items:center;font-weight:900}
+.page{padding:12px 17px 95px}.hide{display:none}
+.wallet{background:linear-gradient(135deg,#431b8d,#7c3aed);color:#fff;border-radius:22px;padding:20px;box-shadow:0 12px 25px #5b21d633}.wallet small{opacity:.75}.amount{font-size:30px;font-weight:900;margin:5px 0 16px}.walletrow{display:flex;gap:8px}.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;cursor:pointer}.white{background:#fff;color:var(--purple)}.purple{background:var(--purple);color:#fff}.soft{background:#eee8ff;color:var(--purple)}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.quick button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 3px;color:var(--ink);font-size:10px}.quick span{display:block;font-size:21px;margin-bottom:4px}
+.section{display:flex;align-items:center;justify-content:space-between;margin:19px 0 10px}.section h3{margin:0;font-size:16px}.more{color:var(--purple);font-size:11px;font-weight:800}
+.banner{border-radius:20px;padding:18px;background:linear-gradient(135deg,#ede9fe,#ddd1ff);display:flex;justify-content:space-between;align-items:center;gap:10px}.banner strong{font-size:18px}.banner p{margin:4px 0 0;font-size:11px;color:#5e5671;line-height:1.4}
+.categories{display:flex;gap:9px;overflow:auto}.cat{min-width:75px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px 5px;text-align:center;font-size:10px}.cat b{display:block;font-size:22px;margin-bottom:5px}
+.products{display:grid;grid-template-columns:1fr 1fr;gap:10px}.product{background:#fff;border:1px solid var(--line);border-radius:17px;padding:10px;overflow:hidden}.photo{height:120px;border-radius:13px;background:#f0eef6;display:grid;place-items:center;font-size:55px}.product h4{font-size:12px;margin:8px 0 3px;line-height:1.3}.price{font-size:14px;font-weight:900;color:var(--green)}.install{font-size:9px;color:var(--muted);margin:3px 0 8px}.product button{width:100%;font-size:11px;padding:9px}
+.search{display:flex;gap:8px;margin-bottom:12px}.search input{flex:1;border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff;outline:none}.search button{width:45px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:10px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted);font-size:11px}.progress{height:8px;background:#eee9f6;border-radius:99px;overflow:hidden;margin:11px 0}.progress i{display:block;height:100%;background:var(--purple)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:480px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1px solid var(--line);padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:20}.nav button{border:0;background:none;color:#7c7787;font-size:9px}.nav button.active{color:var(--purple);font-weight:900}.nav span{display:block;font-size:19px;margin-bottom:2px}
+.modal{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;z-index:30}.sheet{background:#fff;max-width:480px;width:100%;margin:auto;border-radius:22px 22px 0 0;padding:20px;max-height:88vh;overflow:auto}.sheet h3{margin-top:0}.option{border:1px solid var(--line);border-radius:15px;padding:14px;margin:9px 0}.input{width:100%;padding:12px;border:1px solid #ddd7e8;border-radius:11px;margin:6px 0 10px}.toast{display:none;position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#171329;color:#fff;padding:11px 15px;border-radius:12px;font-size:11px;z-index:40;white-space:nowrap}
+.badge{font-size:9px;background:#e9f8ef;color:var(--green);padding:5px 7px;border-radius:99px;font-weight:800}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+  <div class="top">
+    <div><div class="logo">Easylife Store</div><div class="greet" id="greet">Buy Small Small. Save Today.</div></div>
+    <div class="avatar" onclick="show('account')">E</div>
+  </div>
+</header>
+
+<section id="home" class="page">
+  <div class="wallet">
+    <small>Available Easylife Wallet</small>
+    <div class="amount" id="balance">₦128,450.00</div>
+    <div class="walletrow"><button class="btn white" onclick="fund()">＋ Add Money</button><button class="btn" style="background:#ffffff22;color:#fff" onclick="show('wallet')">Transactions</button></div>
+  </div>
+  <div class="quick">
+    <button onclick="fund()"><span>➕</span>Fund</button>
+    <button onclick="transfer()"><span>↗️</span>Transfer</button>
+    <button onclick="withdraw()"><span>↘️</span>Withdraw</button>
+    <button onclick="show('wallet')"><span>🧾</span>History</button>
+  </div>
+  <div class="section"><h3>Pay Bills</h3><span class="more">View all</span></div>
+  <div class="quick">
+    <button onclick="bill('Airtime')"><span>📱</span>Airtime</button>
+    <button onclick="bill('Data')"><span>📶</span>Data</button>
+    <button onclick="bill('Electricity')"><span>⚡</span>Electricity</button>
+    <button onclick="bill('TV')"><span>📺</span>TV</button>
+  </div>
+  <div class="banner"><div><strong>PAY SMALL SMALL</strong><p>Get your gadget and complete payment daily, weekly or monthly.</p></div><button class="btn purple" onclick="show('pay')">Start</button></div>
+  <div class="section"><h3>Shop by category</h3><span class="more" onclick="show('store')">See all</span></div>
+  <div class="categories"><div class="cat">📱<b>Phones</b></div><div class="cat">💻<b>Laptops</b></div><div class="cat">📺<b>TVs</b></div><div class="cat">🎧<b>Audio</b></div><div class="cat">🎮<b>Gaming</b></div></div>
+  <div class="section"><h3>Popular gadgets</h3><span class="more" onclick="show('store')">Shop</span></div>
+  <div id="homeProducts" class="products"></div>
+</section>
+
+<section id="store" class="page hide">
+  <div class="section"><h2 style="margin:0">Easylife Store</h2><span class="badge">Verified sellers</span></div>
+  <div class="search"><input id="search" placeholder="Search phones, laptops, TVs..." oninput="renderProducts()"><button class="btn soft">⌕</button></div>
+  <div class="categories" style="margin-bottom:13px"><div class="cat">📱<b>Phones</b></div><div class="cat">💻<b>Laptops</b></div><div class="cat">📺<b>TVs</b></div><div class="cat">🎧<b>Audio</b></div></div>
+  <div id="products" class="products"></div>
+</section>
+
+<section id="pay" class="page hide">
+  <div class="section"><h2 style="margin:0">Pay Small Small</h2></div>
+  <div class="card"><b>How it works</b><p class="muted">1. Select a gadget → 2. Choose a plan → 3. Make installments → 4. Complete payment → 5. Receive your order.</p></div>
+  <div id="plans"></div>
+</section>
+
+<section id="savings" class="page hide">
+  <div class="section"><h2 style="margin:0">My Savings</h2><button class="btn soft" onclick="newGoal()">＋ Goal</button></div>
+  <div id="goals"></div>
+</section>
+
+<section id="wallet" class="page hide">
+  <div class="section"><h2 style="margin:0">Wallet</h2></div>
+  <div class="wallet"><small>Available balance</small><div class="amount" id="balance2">₦128,450.00</div><button class="btn white" onclick="fund()">＋ Fund Wallet</button></div>
+  <div class="card"><b>Recent transactions</b><div id="tx"></div></div>
+</section>
+
+<section id="account" class="page hide">
+  <div class="section"><h2 style="margin:0">Account</h2></div>
+  <div class="card"><div class="row"><div><b id="name">Guest User</b><div class="muted" id="contact">Sign in to your account</div></div><span>👤</span></div><button class="btn purple" style="width:100%;margin-top:12px" onclick="auth()">Sign in / Register</button></div>
+  <div class="card"><b>Seller Centre</b><p class="muted">Sell electronics to Easylife buyers. Seller verification and payout setup will be required.</p><button class="btn soft" onclick="seller()">Become a seller</button></div>
+  <div class="card"><b>Security</b><p>🔐 PIN & biometric-ready</p><p>🛡️ Transaction verification</p><p>📄 KYC-ready profile</p></div>
+</section>
+
+<nav class="nav">
+<button id="nav-home" class="active" onclick="show('home')"><span>⌂</span>Home</button>
+<button id="nav-store" onclick="show('store')"><span>🛒</span>Store</button>
+<button id="nav-pay" onclick="show('pay')"><span>💳</span>Pay Small</button>
+<button id="nav-savings" onclick="show('savings')"><span>🎯</span>Savings</button>
+<button id="nav-account" onclick="show('account')"><span>👤</span>Account</button>
+</nav>
+</div>
+
+<div id="modal" class="modal"><div class="sheet" id="sheet"></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const products=[
+{id:1,n:"iPhone 15 Pro Max",p:600000,i:"📱",s:"Easylife Verified"},
+{id:2,n:"Samsung Galaxy S24 Ultra",p:720000,i:"📱",s:"Easylife Verified"},
+{id:3,n:"HP Pavilion 15",p:350000,i:"💻",s:"LapTech Store"},
+{id:4,n:"AirPods Pro 2",p:120000,i:"🎧",s:"Gadget World"},
+{id:5,n:"PlayStation 5",p:850000,i:"🎮",s:"Game Hub"},
+{id:6,n:"Smart Watch Pro",p:95000,i:"⌚",s:"Ezone Global"}];
+let state=JSON.parse(localStorage.getItem("easylifeActual")||"null")||{balance:128450,user:null,tx:[],goals:[{n:"My New Laptop",t:800000,s:320000}],plans:[]};
+const money=x=>"₦"+Number(x).toLocaleString("en-NG",{minimumFractionDigits:2});
+function persist(){localStorage.setItem("easylifeActual",JSON.stringify(state));renderAll()}
+function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";clearTimeout(window.to);window.to=setTimeout(()=>x.style.display="none",2200)}
+function show(id){document.querySelectorAll(".page").forEach(x=>x.classList.add("hide"));document.getElementById(id).classList.remove("hide");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));let b=document.getElementById("nav-"+id);if(b)b.classList.add("active");window.scrollTo(0,0);renderAll()}
+function fund(){let a=Number(prompt("Enter amount to fund wallet (prototype):"));if(!a||a<=0)return;state.balance+=a;state.tx.unshift({d:"Wallet funding",a,plus:true});persist();toast("Wallet funded in prototype mode.")}
+function transfer(){let a=Number(prompt("Amount to transfer (prototype):"));if(!a||a<=0)return;if(a>state.balance)return toast("Insufficient balance.");let r=prompt("Recipient account/phone:");if(!r)return;state.balance-=a;state.tx.unshift({d:"Transfer to "+r,a,plus:false});persist();toast("Transfer recorded in prototype mode.")}
+function withdraw(){let a=Number(prompt("Amount to withdraw (prototype):"));if(!a||a<=0)return;if(a>state.balance)return toast("Insufficient balance.");state.balance-=a;state.tx.unshift({d:"Withdrawal request",a,plus:false});persist();toast("Withdrawal recorded in prototype mode.")}
+function bill(t){let a=Number(prompt(t+" amount (prototype):"));if(!a||a<=0)return;if(a>state.balance)return toast("Insufficient balance.");state.balance-=a;state.tx.unshift({d:t+" payment",a,plus:false});persist();toast(t+" recorded in prototype mode.")}
+function renderProducts(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(x=>(x.n+" "+x.s).toLowerCase().includes(q));document.getElementById("products").innerHTML=list.map(x=>card(x)).join("")}
+function card(x){return `<div class="product"><div class="photo">${x.i}</div><h4>${x.n}</h4><div class="price">${money(x.p)}</div><div class="install">${x.s} · Pay Small Small available</div><button class="btn purple" onclick="plans(${x.id})">Choose plan</button></div>`}
+function renderHome(){document.getElementById("homeProducts").innerHTML=products.slice(0,4).map(card).join("")}
+function plans(id){let x=products.find(a=>a.id===id),d=Math.ceil(x.p/60/100)*100,w=Math.ceil(x.p/9/100)*100,m=Math.ceil(x.p/4/100)*100;open(`<h3>${x.i} ${x.n}</h3><p class="muted">Cash price: ${money(x.p)}</p>
+<div class="option"><b>Daily Plan</b><p>${money(d)} × 60 days</p><button class="btn purple" onclick="start(${id},${d},60,'daily')">Choose Daily</button></div>
+<div class="option"><b>Weekly Plan</b><p>${money(w)} × 9 weeks</p><button class="btn soft" onclick="start(${id},${w},9,'weekly')">Choose Weekly</button></div>
+<div class="option"><b>Monthly Plan</b><p>${money(m)} × 4 months</p><button class="btn soft" onclick="start(${id},${m},4,'monthly')">Choose Monthly</button></div>`)}
+function start(id,inst,period,freq){let x=products.find(a=>a.id===id);state.plans.push({id:Date.now(),n:x.n,total:x.p,paid:0,inst,period,freq});persist();close();show("pay");toast("Plan created.")}
+function payPlan(id){let p=state.plans.find(x=>x.id===id);let a=Math.min(p.inst,p.total-p.paid);if(a>state.balance)return toast("Fund your wallet first.");state.balance-=a;p.paid+=a;state.tx.unshift({d:"Installment — "+p.n,a,plus:false});persist();toast(p.paid>=p.total?"Fully paid — order ready for release!":"Installment paid.")}
+function renderPlans(){document.getElementById("plans").innerHTML=state.plans.length?state.plans.map(p=>`<div class="card"><div class="row"><b>${p.n}</b><span class="badge">${p.paid>=p.total?"COMPLETED":"ACTIVE"}</span></div><p class="muted">${p.freq} · ${money(p.inst)} per payment</p><div class="progress"><i style="width:${Math.min(100,p.paid/p.total*100)}%"></i></div><div class="row"><span>${money(p.paid)} paid</span><span>${money(p.total-p.paid)} left</span></div>${p.paid<p.total?`<button class="btn purple" style="margin-top:10px" onclick="payPlan(${p.id})">Make installment</button>`:"<p class='muted'>Payment complete. Order can proceed to release/delivery.</p>"}</div>`).join(""):"<div class='card'>No active payment plans yet.</div>"}
+function newGoal(){open(`<h3>New savings goal</h3><input class="input" id="gn" placeholder="Goal name"><input class="input" id="gt" type="number" placeholder="Target amount"><button class="btn purple" style="width:100%" onclick="createGoal()">Create goal</button>`)}
+function createGoal(){let n=document.getElementById("gn").value.trim(),t=Number(document.getElementById("gt").value);if(!n||!t)return toast("Enter a goal and target.");state.goals.push({n,t,s:0});persist();close();toast("Savings goal created.")}
+function saveGoal(i){let a=Number(prompt("Amount to save (prototype):"));if(!a||a<=0)return;if(a>state.balance)return toast("Insufficient balance.");let g=state.goals[i];if(g.s+a>g.t)return toast("Amount exceeds goal target.");state.balance-=a;g.s+=a;state.tx.unshift({d:"Savings — "+g.n,a,plus:false});persist();toast("Savings contribution added.")}
+function renderGoals(){document.getElementById("goals").innerHTML=state.goals.map((g,i)=>`<div class="card"><div class="row"><b>${g.n}</b><b>${Math.round(g.s/g.t*100)}%</b></div><p class="muted">Target ${money(g.t)}</p><div class="progress"><i style="width:${Math.min(100,g.s/g.t*100)}%"></i></div><div class="row"><span>Saved ${money(g.s)}</span><span>${money(Math.max(0,g.t-g.s))} left</span></div><button class="btn purple" style="margin-top:10px" onclick="saveGoal(${i})">＋ Save Money</button></div>`).join("")}
+function renderWallet(){document.getElementById("tx").innerHTML=state.tx.slice(0,12).map(t=>`<div style="padding:11px 0;border-bottom:1px solid var(--line)"><div class="row"><span>${t.plus?"🟢":"🔵"} ${t.d}</span><b>${t.plus?"+":"-"}${money(t.a)}</b></div></div>`).join("")||"<p class='muted'>No transactions yet.</p>"}
+function auth(){open(`<h3>Welcome to Easylife</h3><input class="input" id="un" placeholder="Full name"><input class="input" id="uc" placeholder="Phone or email"><button class="btn purple" style="width:100%" onclick="login()">Continue</button><p class="muted">Production version will add OTP, secure authentication and KYC.</p>`)}
+function login(){let n=document.getElementById("un").value.trim(),c=document.getElementById("uc").value.trim();if(!n||!c)return toast("Enter your details.");state.user={n,c};persist();close();toast("Profile saved in prototype mode.")}
+function seller(){open(`<h3>Seller Centre</h3><p class="muted">Register your business and sell verified electronics on Easylife Store.</p><input class="input" placeholder="Business name"><input class="input" placeholder="Phone number"><button class="btn purple" onclick="close();toast('Seller application started.')">Continue</button>`)}
+function open(html){document.getElementById("sheet").innerHTML=html;document.getElementById("modal").style.display="flex"}function close(){document.getElementById("modal").style.display="none"}
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")close()}
+function renderAll(){document.getElementById("balance").textContent=money(state.balance);document.getElementById("balance2").textContent=money(state.balance);document.getElementById("greet").textContent=state.user?`Welcome back, ${state.user.n.split(" ")[0]}.`:"Buy Small Small. Save Today.";document.getElementById("name").textContent=state.user?.n||"Guest User";document.getElementById("contact").textContent=state.user?.c||"Sign in to your account";renderHome();renderProducts();renderPlans();renderGoals();renderWallet()}
+renderAll();
+</script>
+</body>
+</html>
