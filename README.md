@@ -1,17 +1,22 @@
-# Easylife Store — Actual Interface Prototype
+# Easylife Store
 
-Open `index.html` in a browser.
+Functional React/Vite starter based on the existing Easylife Store prototype.
 
-This is a functional front-end prototype with:
+## Included
 - Home dashboard
-- Wallet interface
-- Gadget store/search
-- Pay Small Small plan selection and installment tracking
+- Gadget Store
+- Product details
+- Pay Small Small plans
 - Savings goals
-- Airtime/data/electricity/TV shortcuts
-- Account and seller centre screens
-- Local browser persistence for demo data
+- Wallet and transaction history
+- Airtime/Data and Bills UI
+- Marketplace and Seller dashboard
+- Responsive mobile/web layout
+- Local demo state for wallet, savings and cart
 
-Demo balances and payments are simulated. No real money is moved.
+## Run
+1. Install Node.js 18+
+2. `npm install`
+3. `npm run dev`
 
-For production, connect this interface to the Phase 3 backend and Phase 4 payment adapter, then add authentication, KYC, ledger reconciliation, payment webhooks, bill providers, seller payouts, delivery and admin controls.
+This starter uses demo data. Real payments, KYC, bank transfers, airtime/data providers and production authentication must be connected to licensed providers before launch.
